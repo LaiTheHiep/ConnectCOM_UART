@@ -1,0 +1,16 @@
+D:\Code\ControlVJ\ControlVJ\obj\Debug\ControlVJ.csprojAssemblyReference.cache
+D:\Code\ControlVJ\ControlVJ\obj\Debug\App.g.cs
+D:\Code\ControlVJ\ControlVJ\obj\Debug\ControlVJ_MarkupCompile.cache
+D:\Code\ControlVJ\ControlVJ\bin\Debug\ControlVJ.exe.config
+D:\Code\ControlVJ\ControlVJ\bin\Debug\ControlVJ.exe
+D:\Code\ControlVJ\ControlVJ\bin\Debug\ControlVJ.pdb
+D:\Code\ControlVJ\ControlVJ\obj\Debug\MainWindow.g.cs
+D:\Code\ControlVJ\ControlVJ\obj\Debug\ControlVJ_MarkupCompile.lref
+D:\Code\ControlVJ\ControlVJ\obj\Debug\MainWindow.baml
+D:\Code\ControlVJ\ControlVJ\obj\Debug\ControlVJ.g.resources
+D:\Code\ControlVJ\ControlVJ\obj\Debug\ControlVJ.Properties.Resources.resources
+D:\Code\ControlVJ\ControlVJ\obj\Debug\ControlVJ.csproj.GenerateResource.cache
+D:\Code\ControlVJ\ControlVJ\obj\Debug\ControlVJ.csproj.CoreCompileInputs.cache
+D:\Code\ControlVJ\ControlVJ\obj\Debug\ControlVJ.exe
+D:\Code\ControlVJ\ControlVJ\obj\Debug\ControlVJ.pdb
+D:\Code\ControlVJ\ControlVJ\obj\Debug\StyleMain.baml

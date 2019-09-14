@@ -1,0 +1,627 @@
+﻿<Window x:Class="ControlVJ.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControlVJ"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Arial"
+        Title="Makipos" Height="700" Width="1200" Icon="img/iconMakipos.png">
+  <Window.Resources>
+    <ResourceDictionary Source="StyleMain.xaml"></ResourceDictionary>
+  </Window.Resources>
+  <Grid>
+    <TabControl>
+      <TabItem Header="Cấu hình">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="895*"/>
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+          </Grid.RowDefinitions>
+          <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label Grid.ColumnSpan="2">Mã báo hiệu</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <TextBox x:Name="txtAlamCode"></TextBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSendAlamCode" Click="BtnSendAlamCode_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetAlamCode" Click="BtnGetAlamCode_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sAlamCode" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Mật khẩu</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <TextBox x:Name="txtPassword" Text="123456"></TextBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetPassword" Click="BtnSetPassword_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetPassword" Click="BtnGetPassword_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sPassword" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Kiểu chớp</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <TextBox x:Name="txtSignalType" Text="1"></TextBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetSignalType" Click="BtnSetSignalType_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetSignalType" Click="BtnGetSignalType_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sSignalType" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="3" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Khoảng cách báo trôi</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <TextBox x:Name="txtDistance" Text="150"></TextBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="SetDistance" Click="SetDistance_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="GetDistance" Click="GetDistance_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sDistance" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="4" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Cường độ sáng</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <ComboBox x:Name="cbLightLevel">
+                <ComboBoxItem IsSelected="True">0</ComboBoxItem>
+                <ComboBoxItem>1</ComboBoxItem>
+                <ComboBoxItem>2</ComboBoxItem>
+                <ComboBoxItem>3</ComboBoxItem>
+              </ComboBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetLightLevel" Click="BtnSetLightLevel_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetLightLevel" Click="BtnGetLightLevel_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sLightLevel" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="5" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Chế độ GPS</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <ComboBox x:Name="cbGPS">
+                <ComboBoxItem IsSelected="True">0</ComboBoxItem>
+                <ComboBoxItem>1</ComboBoxItem>
+                <ComboBoxItem>2</ComboBoxItem>
+                <ComboBoxItem>3</ComboBoxItem>
+              </ComboBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetGPS" Click="BtnSetGPS_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetGPS" Click="BtnGetGPS_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sGPS" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="6" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Số điện thoại Sever VJ</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+              </Grid.ColumnDefinitions>
+              <TextBox x:Name="txtPhoneVJ" Text="0325021600" Grid.ColumnSpan="3"></TextBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetPhoneVJ" Click="BtnSetPhoneVJ_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetPhoneVJ" Click="BtnGetPhoneVJ_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sPhoneVJ" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="7" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Số điện thoại người quản lý đèn</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <TextBox x:Name="txtPhoneManager" Text="0353176559"></TextBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetPhoneManager" Click="BtnSetPhoneManager_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetPhoneManager" Click="BtnGetPhoneManager_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sPhoneManager" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="8" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Số điện thoại Sever cục đường thủy</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <TextBox x:Name="txtPhoneSever" Text="0355234103"></TextBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetPhoneSever" Click="BtnSetPhoneSever_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetPhoneSever" Click="BtnGetPhoneSever_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sPhoneSever" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="9" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Vị trí ban đầu</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <TextBox x:Name="txtLocation" Text="0,0"></TextBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetLocation" Click="BtnSetLocation_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetLocation" Click="BtnGetLocation_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sLocation" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="10" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Loại Server</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <ComboBox x:Name="cbTypeSever">
+                <ComboBoxItem IsSelected="True">Cục đường thủy</ComboBoxItem>
+                <ComboBoxItem>Vijalight</ComboBoxItem>
+              </ComboBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetTypeSever" Click="BtnSetTypeSever_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetTypeSever" Click="BtnGetTypeSever_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sTypeSever" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="11" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Đèn cầu</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <CheckBox x:Name="ckLight" IsChecked="False"></CheckBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetLight" Click="BtnSetLight_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetLight" Click="BtnGetLight_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sLight" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="12" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Cảnh báo rời vị trí</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <CheckBox x:Name="ckAlamMove" IsChecked="False"></CheckBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnAlamMove" Click="BtnAlamMove_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetAlamMove" Click="BtnGetAlamMove_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sAlamMove" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="13" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Cảnh báo acquy</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <CheckBox x:Name="ckAlamAcquy" IsChecked="True"></CheckBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetAlamAcquy" Click="BtnSetAlamAcquy_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetAlamAcquy" Click="BtnGetAlamAcquy_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sAlamAcquy" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="14" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Cảnh báo đèn</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <CheckBox x:Name="ckAlamLight" IsChecked="True"></CheckBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnAlamLight" Click="BtnAlamLight_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetAlamLight" Click="BtnGetAlamLight_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sAlamLight" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="15" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Label>Cài đặt Server cục</Label>
+            </Grid>
+            <Grid Grid.Column="1">
+              <TextBox x:Name="txtSetting" Text="phao.viwa.gov.vn:7749"></TextBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <Button x:Name="btnSetSetting" Click="BtnSetSetting_Click">Gửi cấu hình</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnGetSetting" Click="BtnGetSetting_Click">Lấy giá trị</Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="sSetting" Text="Trạng Thái"></TextBlock>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="16" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*"></ColumnDefinition>
+              <ColumnDefinition Width="4*"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="2">
+              <Button x:Name="setAllSetting" Click="SetAllSetting_Click">Gửi tất cả</Button>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="getAllSetting" Click="GetAllSetting_Click">Lấy tất cả</Button>
+            </Grid>
+          </Grid>
+          <Grid Grid.Row="17" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+              <Button x:Name="btnReLoadCOM" Click="BtnReLoadCOM_Click">ReLoad COM</Button>
+            </Grid>
+            <Grid Grid.Column="1">
+              <ComboBox Margin="5 2 5 2" x:Name="cbCOM"></ComboBox>
+            </Grid>
+            <Grid Grid.Column="2">
+              <TextBox Margin="5 2 5 2" x:Name="txtBaud" Text="2400"></TextBox>
+            </Grid>
+            <Grid Grid.Column="3">
+              <Button x:Name="btnConnect" Content="Connect" Click="BtnConnect_Click"></Button>
+            </Grid>
+            <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock x:Name="SlbCOM" Text="Kết nối với cổng COM"></TextBlock>
+            </Grid>
+          </Grid>
+        </Grid>
+      </TabItem>
+      <TabItem Header="Thủ công">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+          </Grid.ColumnDefinitions>
+          <Grid Grid.Column="0">
+            <ListBox x:Name="lsvTest" HorizontalAlignment="Stretch">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <Border VerticalAlignment="Stretch" Height="50" BorderThickness="2" BorderBrush="Black">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="255"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                      </Grid.ColumnDefinitions>
+                      <Grid Grid.Column="0">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding CommandUART}"></TextBlock>
+                      </Grid>
+                      <Grid Grid.Column="1">
+                        <TextBlock Text="{Binding TextUART}" TextWrapping="Wrap"></TextBlock>
+                      </Grid>
+                      <Grid Grid.Column="2">
+                        <Button x:Name="btnTestUART" Click="BtnTestUART_Click">Test</Button>
+                      </Grid>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </Grid>
+          <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="12*"></RowDefinition>
+              <RowDefinition Height="1*"></RowDefinition>
+              <RowDefinition Height="1*"></RowDefinition>
+              <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+              </Grid.ColumnDefinitions>
+              <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition/>
+                  <ColumnDefinition Width="19*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox
+                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
+                AcceptsReturn="True" Margin="0 2 5 2" Padding="2 2 2 2" 
+                x:Name="txtDataShow" IsEnabled="True" Grid.ColumnSpan="2">
+                </TextBox>
+              </Grid>
+              <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="1*"></RowDefinition>
+                  <RowDefinition Height="1*"></RowDefinition>
+                  <RowDefinition Height="1*"></RowDefinition>
+                  <RowDefinition Height="1*"></RowDefinition>
+                  <RowDefinition Height="8*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                  <TextBlock VerticalAlignment="Center" Text="{Binding Path=Text, ElementName=SlbCOM}"></TextBlock>
+                </Grid>
+                <Grid Grid.Row="1">
+                  <ComboBox x:Name="cbCOM2" ItemsSource="{Binding Path=ItemsSource, ElementName=cbCOM}"></ComboBox>
+                </Grid>
+                <Grid Grid.Row="2">
+                  <Button Margin="0 2 50 0" Click="BtnReLoadCOM_Click">ReLoad COM</Button>
+                </Grid>
+                <Grid Grid.Row="3">
+                  <Button Margin="0 2 50 0" x:Name="btnConnect2" Click="BtnConnect2_Click" Content="{Binding Path=Content, ElementName=btnConnect}"></Button>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+              </Grid.ColumnDefinitions>
+              <Grid Grid.Column="0">
+                <TextBox x:Name="txtSendData1"></TextBox>
+              </Grid>
+              <Grid Grid.Column="1">
+                <CheckBox x:Name="cbHex1" VerticalAlignment="Center" FontSize="14">Hex</CheckBox>
+              </Grid>
+              <Grid Grid.Column="2">
+                <CheckBox x:Name="cbNewLine1" VerticalAlignment="Center" FontSize="14">NewLine</CheckBox>
+              </Grid>
+              <Grid Grid.Column="3">
+                <Button x:Name="btnSendData1" FontSize="15" Click="BtnSendData1_Click">Send</Button>
+              </Grid>
+            </Grid>
+            <Grid Grid.Row="2" Grid.ColumnSpan="2">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+              </Grid.ColumnDefinitions>
+              <Grid Grid.Column="0">
+                <TextBox x:Name="txtSendData2"></TextBox>
+              </Grid>
+              <Grid Grid.Column="1">
+                <CheckBox x:Name="cbHex2" VerticalAlignment="Center" FontSize="14">Hex</CheckBox>
+              </Grid>
+              <Grid Grid.Column="2">
+                <CheckBox x:Name="cbNewLine2" VerticalAlignment="Center" FontSize="14">NewLine</CheckBox>
+              </Grid>
+              <Grid Grid.Column="3">
+                <Button x:Name="btnSendData2" FontSize="15" Click="BtnSendData2_Click">Send</Button>
+              </Grid>
+            </Grid>
+            <Grid Grid.Row="3" Grid.ColumnSpan="2">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+              </Grid.ColumnDefinitions>
+              <Grid Grid.Column="0">
+                <TextBox x:Name="txtSendData3"></TextBox>
+              </Grid>
+              <Grid Grid.Column="1">
+                <CheckBox x:Name="cbHex3" VerticalAlignment="Center" FontSize="14">Hex</CheckBox>
+              </Grid>
+              <Grid Grid.Column="2">
+                <CheckBox x:Name="cbNewLine3" VerticalAlignment="Center" FontSize="14">NewLine</CheckBox>
+              </Grid>
+              <Grid Grid.Column="3">
+                <Button x:Name="btnSendData3" FontSize="15" Click="BtnSendData3_Click">Send</Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </TabItem>
+    </TabControl>
+  </Grid>
+</Window>
