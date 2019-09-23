@@ -29,6 +29,8 @@ namespace ControlVJ
       InitializeComponent();
 
       SetupMain();
+      this.DataContext = this;
+      threadReceive();
     }
 
     private List<TestUART> ListTestUART = new List<TestUART>()
@@ -82,7 +84,38 @@ namespace ControlVJ
 
     private bool isConnect = false;
 
-    private string DataReceiveUART = "";
+    private int countTimeOut = 0;
+
+    private string _DataReceiveUART = "";
+    public string DataReceiveUART
+    {
+      get { return _DataReceiveUART; }
+      set
+      {
+        if (value != _DataReceiveUART)
+        {
+          _DataReceiveUART = value;
+          OnPropertyChanged("DataReceiveUART");
+        }
+      }
+    }
+
+    private string _DataShow = "";
+    public string DataShow
+    {
+      get { return _DataShow; }
+      set
+      {
+        if (value != _DataShow)
+        {
+          _DataShow = value;
+          OnPropertyChanged("DataShow");
+        }
+      }
+    }
+
+    //private string DataReceiveUART = "";
+    //private string DataShow = "";
 
     private int TimeOut(DateTime time1, DateTime time2)
     {
@@ -112,7 +145,13 @@ namespace ControlVJ
       if (COM.IsOpen)
       {
         COM.WriteLine(at);
-        txtDataShow.Text += at;
+        //txtDataShow.Text += at + NewLine;
+        //txtDataResult.Text += at + NewLine;
+        DataShow += at + NewLine;
+      }
+      else
+      {
+        MessageBox.Show("Kiểm tra cổng COM kết nối");
       }
     }
 
@@ -120,7 +159,44 @@ namespace ControlVJ
     {
       string result = COM.ReadExisting();
       txtDataShow.Text += result + NewLine;
+      txtDataResult.Text += result + NewLine;
       return result;
+    }
+
+    private void threadReceive()
+    {
+      new Thread(
+        () =>
+        {
+          while (true)
+          {
+            if (P.IsOpen)
+            {
+              string temp = P.ReadExisting();
+
+              if (temp != "")
+              {
+                this.DataReceiveUART += temp;
+                this.DataShow += temp;
+                countTimeOut = 0;
+              }
+              else
+              {
+                if(countTimeOut > 20)
+                {
+                  SendAT(P, "TEST,1");
+                  countTimeOut = 0;
+                }
+                else
+                {
+                  countTimeOut++;
+                }
+              }
+              Thread.Sleep(500);
+            }
+          }
+        })
+      { IsBackground = true }.Start();
     }
 
     private void SETUART(string dataSend, string pattReceive, int lenghtList, TextBlock tbStatus)
@@ -194,6 +270,7 @@ namespace ControlVJ
         tbStatus.Foreground = new SolidColorBrush(Colors.Red);
         return "";
       }
+      return "";
     }
 
     private void SendUART(string data)
@@ -216,7 +293,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 1: {txtAlamCode.Text}|ID thiet bi: {txtAlamCode.Text}";
         string datasend = $"SET,1,({txtAlamCode.Text})";
-        SETUART(datasend, patt, 2, sAlamCode);
+        //SETUART(datasend, patt, 2, sAlamCode);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -230,10 +308,11 @@ namespace ControlVJ
       {
         string patt = $"ID thiet bi:(.*?)";
         string datasend = $"GET,1";
-        string data = GETUART(datasend, patt, 1, sAlamCode);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        txtAlamCode.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sAlamCode);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //txtAlamCode.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -247,7 +326,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 2: {txtPassword.Text}|Password: {txtPassword.Text}";
         string datasend = $"SET,2,({txtPassword.Text})";
-        SETUART(datasend, patt, 2, sPassword);
+        //SETUART(datasend, patt, 2, sPassword);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -261,10 +341,11 @@ namespace ControlVJ
       {
         string patt = $"Password:(.*?)";
         string datasend = $"GET,2";
-        string data = GETUART(datasend, patt, 1, sPassword);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        txtPassword.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sPassword);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //txtPassword.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -278,7 +359,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 3: {txtSignalType.Text}|Blink Type: {txtSignalType.Text}";
         string datasend = $"SET,3,({txtSignalType.Text})";
-        SETUART(datasend, patt, 2, sSignalType);
+        //SETUART(datasend, patt, 2, sSignalType);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -292,10 +374,11 @@ namespace ControlVJ
       {
         string patt = $"Blink Type:(.*?)";
         string datasend = $"GET,3";
-        string data = GETUART(datasend, patt, 1, sSignalType);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        txtSignalType.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sSignalType);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //txtSignalType.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -309,7 +392,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 4: {txtDistance.Text}|Distance: {txtDistance.Text}";
         string datasend = $"SET,4,({txtDistance.Text})";
-        SETUART(datasend, patt, 2, sDistance);
+        //SETUART(datasend, patt, 2, sDistance);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -323,10 +407,11 @@ namespace ControlVJ
       {
         string patt = $"Distance:(.*?)";
         string datasend = $"GET,4";
-        string data = GETUART(datasend, patt, 1, sDistance);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        txtDistance.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sDistance);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //txtDistance.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -340,7 +425,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 5: {cbLightLevel.Text}|Capacity: {cbLightLevel.Text}";
         string datasend = $"SET,5,({cbLightLevel.Text})";
-        SETUART(datasend, patt, 2, sLightLevel);
+        //SETUART(datasend, patt, 2, sLightLevel);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -354,10 +440,11 @@ namespace ControlVJ
       {
         string patt = $"Capacity:(.*?)";
         string datasend = $"GET,5";
-        string data = GETUART(datasend, patt, 1, sLightLevel);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        cbLightLevel.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sLightLevel);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //cbLightLevel.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -371,7 +458,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 6: {cbGPS.Text}|GPS Mode: {cbGPS.Text}|GPS Power:(.*?)";
         string datasend = $"SET,6,({cbLightLevel.Text})";
-        SETUART(datasend, patt, 3, sGPS);
+        //SETUART(datasend, patt, 3, sGPS);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -385,10 +473,11 @@ namespace ControlVJ
       {
         string patt = $"GPS Mode:(.*?)";
         string datasend = $"GET,6";
-        string data = GETUART(datasend, patt, 1, sGPS);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        cbGPS.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sGPS);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //cbGPS.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -402,7 +491,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 7: {txtPhoneVJ.Text}|SMS No1: {txtPhoneVJ.Text}";
         string datasend = $"SET,7,({txtPhoneVJ.Text})";
-        SETUART(datasend, patt, 2, sPhoneVJ);
+        //SETUART(datasend, patt, 2, sPhoneVJ);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -416,10 +506,11 @@ namespace ControlVJ
       {
         string patt = $"SMS No1:(.*?)";
         string datasend = $"GET,7";
-        string data = GETUART(datasend, patt, 1, sPhoneVJ);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        txtPhoneVJ.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sPhoneVJ);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //txtPhoneVJ.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -433,7 +524,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 8: {txtPhoneManager.Text}|SMS No2: {txtPhoneManager.Text}";
         string datasend = $"SET,8,({txtPhoneManager.Text})";
-        SETUART(datasend, patt, 2, sPhoneManager);
+        //SETUART(datasend, patt, 2, sPhoneManager);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -447,10 +539,11 @@ namespace ControlVJ
       {
         string patt = $"SMS No2:(.*?)";
         string datasend = $"GET,8";
-        string data = GETUART(datasend, patt, 1, sPhoneManager);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        txtPhoneManager.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sPhoneManager);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //txtPhoneManager.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -464,7 +557,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 9: {txtPhoneSever.Text}|SMS No3: {txtPhoneSever.Text}";
         string datasend = $"SET,9,({txtPhoneSever.Text})";
-        SETUART(datasend, patt, 2, sPhoneSever);
+        //SETUART(datasend, patt, 2, sPhoneSever);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -478,10 +572,11 @@ namespace ControlVJ
       {
         string patt = $"SMS No3:(.*?)";
         string datasend = $"GET,9";
-        string data = GETUART(datasend, patt, 1, sPhoneSever);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        txtPhoneSever.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sPhoneSever);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //txtPhoneSever.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -495,7 +590,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 10:(.*?)|Position:(.*?)";
         string datasend = $"SET,10,({txtLocation.Text})";
-        SETUART(datasend, patt, 2, sLocation);
+        //SETUART(datasend, patt, 2, sLocation);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -509,10 +605,11 @@ namespace ControlVJ
       {
         string patt = $"Position:(.*?)";
         string datasend = $"GET,10";
-        string data = GETUART(datasend, patt, 1, sLocation);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        txtLocation.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sLocation);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //txtLocation.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -526,7 +623,8 @@ namespace ControlVJ
       {
         string patt = $"Thiet lap cau hinh 12:(.*?)|Server:(.*?)";
         string datasend = $"SET,12,({cbTypeSever.Text})";
-        SETUART(datasend, patt, 2, sTypeSever);
+        //SETUART(datasend, patt, 2, sTypeSever);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -540,10 +638,11 @@ namespace ControlVJ
       {
         string patt = $"Server:(.*?)";
         string datasend = $"GET,12";
-        string data = GETUART(datasend, patt, 1, sTypeSever);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        cbTypeSever.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sTypeSever);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //cbTypeSever.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -561,7 +660,8 @@ namespace ControlVJ
 
         string patt = $"Thiet lap cau hinh 17: {value}|Den Cau:(.*?)";
         string datasend = $"SET,17,({value})";
-        SETUART(datasend, patt, 2, sLight);
+        //SETUART(datasend, patt, 2, sLight);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -575,14 +675,15 @@ namespace ControlVJ
       {
         string patt = $"Den Cau:(.*?)";
         string datasend = $"GET,17";
-        string data = GETUART(datasend, patt, 1, sLight);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        string result = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
-        if (result == "ON")
-          ckLight.IsChecked = true;
-        else
-          ckLight.IsChecked = false;
+        //string data = GETUART(datasend, patt, 1, sLight);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //string result = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //if (result == "ON")
+        //  ckLight.IsChecked = true;
+        //else
+        //  ckLight.IsChecked = false;
+        SendAT(P, datasend);
       }
       catch
       {
@@ -600,7 +701,8 @@ namespace ControlVJ
 
         string patt = $"Thiet lap cau hinh 20: {value}|Move alarm:(.*?)";
         string datasend = $"SET,20,({value})";
-        SETUART(datasend, patt, 2, sAlamMove);
+        //SETUART(datasend, patt, 2, sAlamMove);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -614,14 +716,15 @@ namespace ControlVJ
       {
         string patt = $"Move alarm:(.*?)";
         string datasend = $"GET,20";
-        string data = GETUART(datasend, patt, 1, sAlamMove);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        string result = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
-        if (result == "1")
-          ckLight.IsChecked = true;
-        else
-          ckLight.IsChecked = false;
+        //string data = GETUART(datasend, patt, 1, sAlamMove);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //string result = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //if (result == "1")
+        //  ckLight.IsChecked = true;
+        //else
+        //  ckLight.IsChecked = false;
+        SendAT(P, datasend);
       }
       catch
       {
@@ -639,7 +742,8 @@ namespace ControlVJ
 
         string patt = $"Thiet lap cau hinh 21: {value}|Accu alarm:(.*?)";
         string datasend = $"SET,21,({value})";
-        SETUART(datasend, patt, 2, sAlamAcquy);
+        //SETUART(datasend, patt, 2, sAlamAcquy);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -653,14 +757,15 @@ namespace ControlVJ
       {
         string patt = $"Accu alarm:(.*?)";
         string datasend = $"GET,21";
-        string data = GETUART(datasend, patt, 1, sAlamAcquy);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        string result = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
-        if (result == "1")
-          ckAlamAcquy.IsChecked = true;
-        else
-          ckAlamAcquy.IsChecked = false;
+        //string data = GETUART(datasend, patt, 1, sAlamAcquy);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //string result = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //if (result == "1")
+        //  ckAlamAcquy.IsChecked = true;
+        //else
+        //  ckAlamAcquy.IsChecked = false;
+        SendAT(P, datasend);
       }
       catch
       {
@@ -678,7 +783,8 @@ namespace ControlVJ
 
         string patt = $"Thiet lap cau hinh 22: {value}|LED alarm:(.*?)";
         string datasend = $"SET,22,({value})";
-        SETUART(datasend, patt, 2, sAlamLight);
+        //SETUART(datasend, patt, 2, sAlamLight);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -692,14 +798,15 @@ namespace ControlVJ
       {
         string patt = $"LED alarm:(.*?)";
         string datasend = $"GET,22";
-        string data = GETUART(datasend, patt, 1, sAlamLight);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        string result = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
-        if (result == "1")
-          ckAlamLight.IsChecked = true;
-        else
-          ckAlamLight.IsChecked = false;
+        //string data = GETUART(datasend, patt, 1, sAlamLight);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //string result = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //if (result == "1")
+        //  ckAlamLight.IsChecked = true;
+        //else
+        //  ckAlamLight.IsChecked = false;
+        SendAT(P, datasend);
       }
       catch
       {
@@ -714,7 +821,8 @@ namespace ControlVJ
         string[] arr = txtSetting.Text.Split(':');
         string patt = $"Thiet lap cau hinh 201: {arr[0]},{arr[1]}|Alter Host: {txtSetting.Text}";
         string datasend = $"SET,201,({arr[0]},{arr[1]})";
-        SETUART(datasend, patt, 2, sSetting);
+        //SETUART(datasend, patt, 2, sSetting);
+        SendAT(P, datasend);
       }
       catch
       {
@@ -728,10 +836,11 @@ namespace ControlVJ
       {
         string patt = $"Alter Host:(.*?)";
         string datasend = $"GET,201";
-        string data = GETUART(datasend, patt, 1, sSetting);
-        var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
-        int position = data.IndexOf(lsregex[0].ToString());
-        txtSetting.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        //string data = GETUART(datasend, patt, 1, sSetting);
+        //var lsregex = Regex.Matches(data, patt, RegexOptions.Singleline);
+        //int position = data.IndexOf(lsregex[0].ToString());
+        //txtSetting.Text = data.Substring(position + lsregex[0].Length + 1, data.Length - (position + lsregex[0].Length + 1));
+        SendAT(P, datasend);
       }
       catch
       {
@@ -743,22 +852,24 @@ namespace ControlVJ
     {
       if (P.IsOpen)
       {
-        BtnSendAlamCode_Click(sender, e);
-        BtnSetPassword_Click(sender, e);
-        BtnSetSignalType_Click(sender, e);
-        SetDistance_Click(sender, e);
-        BtnSetLightLevel_Click(sender, e);
-        BtnSetGPS_Click(sender, e);
-        BtnSetPhoneVJ_Click(sender, e);
-        BtnSetPhoneManager_Click(sender, e);
-        BtnSetPhoneSever_Click(sender, e);
-        BtnSetLocation_Click(sender, e);
-        BtnSetTypeSever_Click(sender, e);
-        BtnSetLight_Click(sender, e);
-        BtnAlamMove_Click(sender, e);
-        BtnSetAlamAcquy_Click(sender, e);
-        BtnAlamLight_Click(sender, e);
-        BtnSetSetting_Click(sender, e);
+        MessageBox.Show("Đang load dữ liệu. Click OK và chờ đợi");
+        BtnSendAlamCode_Click(sender, e); Thread.Sleep(1000);
+        BtnSetPassword_Click(sender, e); Thread.Sleep(1000);
+        BtnSetSignalType_Click(sender, e); Thread.Sleep(1000);
+        SetDistance_Click(sender, e); Thread.Sleep(1000);
+        BtnSetLightLevel_Click(sender, e); Thread.Sleep(1000);
+        BtnSetGPS_Click(sender, e); Thread.Sleep(1000);
+        BtnSetPhoneVJ_Click(sender, e); Thread.Sleep(1000);
+        BtnSetPhoneManager_Click(sender, e); Thread.Sleep(1000);
+        BtnSetPhoneSever_Click(sender, e); Thread.Sleep(1000);
+        BtnSetLocation_Click(sender, e); Thread.Sleep(1000);
+        BtnSetTypeSever_Click(sender, e); Thread.Sleep(1000);
+        BtnSetLight_Click(sender, e); Thread.Sleep(1000);
+        BtnAlamMove_Click(sender, e); Thread.Sleep(1000);
+        BtnSetAlamAcquy_Click(sender, e); Thread.Sleep(1000);
+        BtnAlamLight_Click(sender, e); Thread.Sleep(1000);
+        BtnSetSetting_Click(sender, e); Thread.Sleep(1000);
+        MessageBox.Show("Đã cài đặt hết tất cả các giá trị");
       }
     }
 
@@ -766,22 +877,24 @@ namespace ControlVJ
     {
       if (P.IsOpen)
       {
-        BtnGetAlamCode_Click(sender, e);
-        BtnGetPassword_Click(sender, e);
-        BtnGetSignalType_Click(sender, e);
-        GetDistance_Click(sender, e);
-        BtnGetLightLevel_Click(sender, e);
-        BtnGetGPS_Click(sender, e);
-        BtnGetPhoneVJ_Click(sender, e);
-        BtnGetPhoneManager_Click(sender, e);
-        BtnGetPhoneSever_Click(sender, e);
-        BtnGetLocation_Click(sender, e);
-        BtnGetTypeSever_Click(sender, e);
-        BtnGetLight_Click(sender, e);
-        BtnGetAlamMove_Click(sender, e);
-        BtnGetAlamAcquy_Click(sender, e);
-        BtnGetAlamLight_Click(sender, e);
-        BtnGetSetting_Click(sender, e);
+        MessageBox.Show("Đang load dữ liệu. Click OK và chờ đợi");
+        BtnGetAlamCode_Click(sender, e); Thread.Sleep(1000);
+        BtnGetPassword_Click(sender, e); Thread.Sleep(1000);
+        BtnGetSignalType_Click(sender, e); Thread.Sleep(1000);
+        GetDistance_Click(sender, e); Thread.Sleep(1000);
+        BtnGetLightLevel_Click(sender, e); Thread.Sleep(1000);
+        BtnGetGPS_Click(sender, e); Thread.Sleep(1000);
+        BtnGetPhoneVJ_Click(sender, e); Thread.Sleep(1000);
+        BtnGetPhoneManager_Click(sender, e); Thread.Sleep(1000);
+        BtnGetPhoneSever_Click(sender, e); Thread.Sleep(1000);
+        BtnGetLocation_Click(sender, e); Thread.Sleep(1000);
+        BtnGetTypeSever_Click(sender, e); Thread.Sleep(1000);
+        BtnGetLight_Click(sender, e); Thread.Sleep(1000);
+        BtnGetAlamMove_Click(sender, e); Thread.Sleep(1000);
+        BtnGetAlamAcquy_Click(sender, e); Thread.Sleep(1000);
+        BtnGetAlamLight_Click(sender, e); Thread.Sleep(1000);
+        BtnGetSetting_Click(sender, e); Thread.Sleep(1000);
+        MessageBox.Show("Đã lấy hết tất cả các giá trị");
       }
     }
 
@@ -850,7 +963,8 @@ namespace ControlVJ
         {
           data += NewLine;
         }
-        SendUART(data);
+        //SendUART(data);
+        SendAT(P, data);
       }
       catch
       {
@@ -867,7 +981,8 @@ namespace ControlVJ
         {
           data += NewLine;
         }
-        SendUART(data);
+        //SendUART(data);
+        SendAT(P, data);
       }
       catch
       {
@@ -884,7 +999,8 @@ namespace ControlVJ
         {
           data += NewLine;
         }
-        SendUART(data);
+        //SendUART(data);
+        SendAT(P, data);
       }
       catch
       {
@@ -897,7 +1013,8 @@ namespace ControlVJ
       try
       {
         TestUART uart = (sender as Button).DataContext as TestUART;
-        SendUART(uart.CommandUART);
+        //SendUART(uart.CommandUART);
+        SendAT(P, uart.CommandUART);
       }
       catch
       {
@@ -913,6 +1030,16 @@ namespace ControlVJ
       {
         PropertyChanged(this, new PropertyChangedEventArgs(newName));
       }
+    }
+
+    private void TxtDataResult_TextChanged(object sender, TextChangedEventArgs e)
+    {
+      txtDataResult.ScrollToEnd();
+    }
+
+    private void TxtDataShow_TextChanged(object sender, TextChangedEventArgs e)
+    {
+      txtDataShow.ScrollToEnd();
     }
   }
 }
